@@ -3,9 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048 Game</title>
+    <title>Cyber 2048 - Sci-Fi Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/style.css">
 </head>
-<body>
-    
+<body class="cyber-bg min-h-screen text-slate-100 flex flex-col items-center justify-between p-3 sm:p-6 select-none overflow-x-hidden relative">
+
+    <div class="synth-grid"></div>
+    <div class="cyber-skyline"></div>
+    <div class="circuit-line circuit-left"></div>
+    <div class="circuit-line circuit-right"></div>
+    <div class="particles" id="particles"></div>
+    <div class="w-full max-w-md flex flex-col items-center z-10 relative my-auto">
+        
+        <header class="w-full flex justify-between items-center mb-3 px-2">
+            <button id="hamburger-btn" onclick="toggleMenu()" class="w-10 h-10 rounded-lg bg-cyan-950/60 border border-cyan-500/50 text-cyan-400 flex items-center justify-center hover:bg-cyan-500/20 hover:border-cyan-400 transition-all shadow-[0_0_10px_rgba(6,182,212,0.3)]">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+            
+            <div class="cyber-title text-3xl font-black italic tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-pink-500">
+                2048
+            </div>
+            
+            <button onclick="toggleSettings()" class="w-10 h-10 rounded-lg bg-fuchsia-950/60 border border-fuchsia-500/50 text-fuchsia-300 flex items-center justify-center hover:bg-fuchsia-500/20 hover:border-fuchsia-400 transition-all shadow-[0_0_10px_rgba(217,70,239,0.3)]">
+                <i class="fa-solid fa-gear text-lg"></i>
+            </button>
+        </header>
+
+        <div id="cyber-menu" class="hidden absolute top-12 left-0 w-full z-50 transform transition-all duration-300">
+            <div class="glass-panel p-5 rounded-xl border-2 border-cyan-500/60 bg-slate-950/95 shadow-[0_0_30px_rgba(6,182,212,0.4)] backdrop-blur-xl relative">
+                <button onclick="toggleMenu()" class="absolute top-3 right-3 text-cyan-400 hover:text-pink-400 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+                
+                <div class="text-xs font-bold tracking-widest text-cyan-400 mb-3 uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad"></i> Game Modes
+                </div>
+
+                <div class="space-y-2 mb-4">
+                    <a href="#" class="block p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 hover:border-cyan-400 transition-all group">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-cyan-300 group-hover:text-cyan-200 flex items-center gap-2">
+                                <i class="fa-solid fa-star text-yellow-400 text-sm"></i> Standard
+                            </span>
+                            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded">Active</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">2048 with cyber powerups & abilities</p>
+                    </a>
+
+                    <a href="#" class="block p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-fuchsia-500/50 transition-all group">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-slate-300 group-hover:text-fuchsia-300 flex items-center gap-2">
+                                <i class="fa-solid fa-cubes text-fuchsia-400 text-sm"></i> Classic
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">The original 2048, no undo or extras</p>
+                    </a>
+
+                    <a href="#" class="block p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-pink-500/50 transition-all group">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-slate-300 group-hover:text-pink-300 flex items-center gap-2">
+                                <i class="fa-solid fa-graduation-cap text-pink-400 text-sm"></i> Tutorial
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">Learn how to play & master combos</p>
+                    </a>
+
+                    <a href="#" class="block p-2.5 rounded-lg bg-gradient-to-r from-fuchsia-950/40 to-pink-950/40 border border-pink-500/30 hover:border-pink-400 transition-all group">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-pink-300 flex items-center gap-2">
+                                <i class="fa-solid fa-crown text-amber-400 text-sm"></i> Plus Mode
+                            </span>
+                            <span class="text-[9px] bg-pink-500/30 text-pink-200 px-1.5 py-0.5 rounded uppercase tracking-wider font-bold">Limited</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">Bonus powerups and dark neon board!</p>
+                    </a>
+                </div>
+
+                <div class="border-t border-slate-800 pt-3 grid grid-cols-2 gap-2 text-xs text-slate-400">
+                    <a href="#" class="hover:text-cyan-400 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-comment text-[10px]"></i> Feedback</a>
+                    <a href="#" class="hover:text-cyan-400 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-mobile-screen text-[10px]"></i> Get App</a>
+                    <a href="#" class="hover:text-cyan-400 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-[10px]"></i> Privacy</a>
+                    <a href="#" class="hover:text-cyan-400 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-circle-info text-[10px]"></i> About Game</a>
+                </div>
+
+                <div class="mt-4 pt-2 border-t border-slate-800/80 text-center">
+                    <a href="#" class="text-xs font-bold text-cyan-400 hover:text-cyan-300 tracking-wider flex items-center justify-center gap-1">
+                        GO TO CLASSIC 2048 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="w-full grid grid-cols-2 gap-3 mb-3">
+            <div class="glass-panel p-2.5 rounded-xl text-center border border-cyan-500/40 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                <div class="text-[10px] tracking-widest text-cyan-400 font-bold uppercase">SCORE</div>
+                <div id="score" class="text-2xl font-black text-cyan-200 font-mono tracking-wider">0</div>
+            </div>
+            <div class="glass-panel p-2.5 rounded-xl text-center border border-fuchsia-500/40 shadow-[0_0_15px_rgba(217,70,239,0.2)]">
+                <div class="text-[10px] tracking-widest text-fuchsia-400 font-bold uppercase">BEST</div>
+                <div id="best-score" class="text-2xl font-black text-fuchsia-200 font-mono tracking-wider">0</div>
+            </div>
+        </div>
+        <div class="w-full flex justify-between items-center px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 text-[11px] text-slate-400 mb-3">
+            <div class="flex items-center gap-1.5 text-pink-400 font-bold">
+                <i class="fa-solid fa-bolt text-amber-400"></i> COMBO X1
+            </div>
+            <div class="text-slate-300 font-mono">
+                LAST MOVE: <span id="last-move" class="text-cyan-400 font-bold">[ - ]</span>
+            </div>
+        </div>
+        <div class="w-full aspect-square glass-panel p-3 rounded-2xl border-2 border-cyan-500/50 shadow-[0_0_35px_rgba(6,182,212,0.3)] relative flex flex-col justify-between">
+            <div id="grid-container" class="grid grid-cols-4 gap-2.5 h-full w-full">
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+                <div class="grid-cell rounded-xl"></div>
+            </div>
+        </div>
+        <div class="w-full grid grid-cols-3 gap-3 mt-4">
+            <div class="flex flex-col gap-2 justify-center">
+                <button id="undo-btn" class="cyber-btn border-fuchsia-500/50 text-fuchsia-300 py-2 rounded-xl flex flex-col items-center justify-center gap-0.5 text-xs font-bold">
+                    <i class="fa-solid fa-rotate-left text-sm"></i>
+                    <span>UNDO</span>
+                </button>
+                <button id="sound-btn" onclick="toggleSound()" class="cyber-btn border-cyan-500/50 text-cyan-300 py-2 rounded-xl flex flex-col items-center justify-center gap-0.5 text-xs font-bold">
+                    <i id="sound-icon" class="fa-solid fa-volume-high text-sm"></i>
+                    <span id="sound-text">SOUND</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-1 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800">
+                <div></div>
+                <button id="btn-up" class="arrow-btn"><i class="fa-solid fa-chevron-up"></i></button>
+                <div></div>
+                <button id="btn-left" class="arrow-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                <button id="btn-down" class="arrow-btn"><i class="fa-solid fa-chevron-down"></i></button>
+                <button id="btn-right" class="arrow-btn"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+
+            <div class="flex flex-col gap-2 justify-center">
+                <button id="restart-btn" class="cyber-btn border-cyan-500/50 text-cyan-300 py-2 rounded-xl flex flex-col items-center justify-center gap-0.5 text-xs font-bold">
+                    <i class="fa-solid fa-arrows-rotate text-sm"></i>
+                    <span>RESTART</span>
+                </button>
+                <button id="hint-btn" class="cyber-btn border-fuchsia-500/50 text-fuchsia-300 py-2 rounded-xl flex flex-col items-center justify-center gap-0.5 text-xs font-bold">
+                    <i class="fa-solid fa-lightbulb text-sm"></i>
+                    <span>HINT</span>
+                </button>
+            </div>
+        </div>
+
+        <footer class="w-full flex flex-col items-center justify-center text-[11px] text-slate-400 font-mono tracking-wider mt-5 gap-1 border-t border-slate-800/80 pt-3">
+            <div class="flex items-center gap-1.5 text-cyan-300 font-bold">
+                <span>UI & Layout:</span>
+                <span class="text-pink-400">Mariam Khaled</span>
+            </div>
+            <div class="text-[10px] text-slate-500">
+                Logic & JS Devs: <span class="text-slate-400">Yousef Ayman</span> & <span class="text-slate-400">Khaled Ashraf</span>
+            </div>
+        </footer>
+
+    </div>
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('cyber-menu');
+            menu.classList.toggle('hidden');
+        }
+        function toggleSettings() {
+            alert('Settings menu opened!');
+        }
+        function toggleSound() {
+            const icon = document.getElementById('sound-icon');
+            const text = document.getElementById('sound-text');
+            if (icon.classList.contains('fa-volume-high')) {
+                icon.className = 'fa-solid fa-volume-xmark text-sm';
+                text.innerText = 'MUTED';
+            } else {
+                icon.className = 'fa-solid fa-volume-high text-sm';
+                text.innerText = 'SOUND';
+            }
+        }
+
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 25; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (Math.random() * 8 + 4) + 's';
+            p.style.animationDelay = (Math.random() * 5) + 's';
+            p.style.width = (Math.random() * 4 + 2) + 'px';
+            p.style.height = p.style.width;
+            p.style.background = Math.random() > 0.5 ? '#06b6d4' : '#d946ef';
+            container.appendChild(p);
+        }
+    </script>
+    <script src="js/app.js"></script>
+    <script src="js/game.js"></script>
 </body>
 </html>
