@@ -1,8 +1,49 @@
 import {getGrid , endGame , moveLeftAll , moveRightAll , moveUpAll , moveDownAll , getScore , getBestScore} from "./game.js";
+let upBtn = document.getElementById("btn-up");
+let rightBtn = document.getElementById("btn-right");
+let leftBtn = document.getElementById("btn-left");
+let downtBtn = document.getElementById("btn-down");
+let restartBtn = document.getElementById("restart-btn");
+let rulesBtn = document.getElementById("rules-btn");
+let gotItBtn = document.getElementById("got-it-btn");
+let closeRulesBtn = document.getElementById("close-rules-btn");
 
-function render(){
+let score = document.getElementById("score");
+let bestScore = document.getElementById("best-score");
+let rulesModal = document.getElementById("rules-modal");
+
+upBtn.addEventListener("click" , () =>{
+    moveUpAll();
+    render();
+});
+rightBtn.addEventListener("click" , () =>{
+    moveRightAll();
+    render();
+});
+leftBtn.addEventListener("click" , () =>{
+    moveLeftAll();
+    render();
+});
+downtBtn.addEventListener("click" , () =>{
+    moveDownAll();
+    render();
+});
+restartBtn.addEventListener("click" , () =>{
+    endGame();
+    render();
+});
+rulesBtn.addEventListener("click" , () =>{
+    rulesModal.classList.remove("hidden");
+});
+gotItBtn.addEventListener("click" , () =>{
+    rulesModal.classList.add("hidden");
+});
+closeRulesBtn.addEventListener("click" , () =>{
+    rulesModal.classList.add("hidden");
+});
+
+function render(){  
     let gridCells = document.querySelectorAll(".grid-cell");
-    for(let i = 0 ; i < gridCells.length ; i++){
         let gridFromApp = getGrid();
         let index = 0;
         for(let row = 0 ; row < gridFromApp.length; row++){
@@ -17,7 +58,8 @@ function render(){
                 index++;
             }
         }
-    }
+    score.innerText = getScore();
+    bestScore.innerText = getBestScore();
 } render();
 function tileStyle(element , cell){
     element.style.display = "flex";

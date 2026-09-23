@@ -9,7 +9,8 @@ export function getGrid() {
     return grid;
 }
 
-let score = 0, bestScore = localStorage.getItem('bestScore') || 0;
+let score = Number(localStorage.getItem('score')) || 0; 
+let bestScore = Number(localStorage.getItem('bestScore')) || 0;
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ test cases ـــــــــــــــــــــــــــــــــــــــــــــــ
 const testCases = [
@@ -104,15 +105,21 @@ function setRandomCell() {
 
 export function endGame() {            // used by user (reset game)
     grid.forEach(row => row.fill(0));
-    updateScoreBoard(0);
-    localStorage.setItem('bestScore', bestScore)
+    // updateScoreBoard(0);
+    score = 0;
+    localStorage.setItem('score' , score);
+    // localStorage.setItem('bestScore', bestScore);
+    setRandomCell(); setRandomCell();
 }
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ update score ـــــــــــــــــــــــــــــــــــــــــــــــ
 function updateScoreBoard(bouns) {
     score += bouns;
-    if (score > bestScore)
+    if (score > bestScore){
         bestScore = score;
+    }
+    localStorage.setItem("score" , score);
+    localStorage.setItem("bestScore" , bestScore);
 }
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ move directions ـــــــــــــــــــــــــــــــــــــــــــــــ
