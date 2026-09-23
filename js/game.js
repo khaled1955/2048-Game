@@ -9,7 +9,8 @@ export function getGrid() {
     return grid;
 }
 
-let score = 0, bestScore = localStorage.getItem('bestScore') || 0;
+let score = Number(localStorage.getItem('score')) || 0; 
+let bestScore = Number(localStorage.getItem('bestScore')) || 0;
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ test cases ـــــــــــــــــــــــــــــــــــــــــــــــ
 const testCases = [
@@ -90,26 +91,46 @@ function setRandomCell() {
         }
     }
 
-    if (emptyCells.length === 0) endGame();
+    if (emptyCells.length === 0) {
+        endGame();
+        return;
+    }
 
     const randomIndex = Math.floor(Math.random() * emptyCells.length);
     const { row, col } = emptyCells[randomIndex];
     grid[row][col] = Math.random() < 0.9 ? 2 : 4;
 
     return grid[row][col];
-} setRandomCell();
+} setRandomCell(); setRandomCell();
 
 export function endGame() {            // used by user (reset game)
     grid.forEach(row => row.fill(0));
-    updateScoreBoard(0);
-    localStorage.setItem('bestScore', bestScore)
+    // updateScoreBoard(0);
+    score = 0;
+    localStorage.setItem('score' , score);
+    // localStorage.setItem('bestScore', bestScore);
+    alert("Game Over");  
+    setRandomCell(); setRandomCell();
 }
+
+export function ResetGame() {            // used by user (reset game)
+    grid.forEach(row => row.fill(0));
+    // updateScoreBoard(0);
+    score = 0;
+    localStorage.setItem('score' , score);
+    // localStorage.setItem('bestScore', bestScore);
+    setRandomCell(); setRandomCell();
+}
+
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ update score ـــــــــــــــــــــــــــــــــــــــــــــــ
 function updateScoreBoard(bouns) {
     score += bouns;
-    if (score > bestScore)
+    if (score > bestScore){
         bestScore = score;
+    }
+    localStorage.setItem("score" , score);
+    localStorage.setItem("bestScore" , bestScore);
 }
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ move directions ـــــــــــــــــــــــــــــــــــــــــــــــ
@@ -129,7 +150,7 @@ function moveArrowRight(row, isTest = false) {
     while (4 - row.length) {
         row.unshift(0);
     }
-    // console.log('Right ', row);
+
     return row;
 }
 unitTest(moveArrowRight, expectedRight, 'Right');
@@ -149,7 +170,6 @@ function moveArrowLeft(row, isTest = false) {
     while (4 - row.length) {
         row.push(0);
     }
-    // console.log('Left', row);
     return row;
 }
 unitTest(moveArrowLeft, expectedLeft, 'Left');
@@ -203,29 +223,37 @@ export function moveDownAll() {       // used by user (arrow down)
 
     setRandomCell();
 }
+export function getScore() { 
+    return score; 
+}
+export function getBestScore() {
+    return bestScore; 
+}
+function saveGame(){
+    return localStorage.setItem("grid" , JSON.stringify(gridFromGame)); 
+}
 
-console.log('Score: ', score, ' Best: ', bestScore);
-console.table(grid);
-moveUpAll();
+// console.log('Score: ', score, ' Best: ', bestScore);
+// console.table(grid);
+// moveUpAll();
 
-console.log('Score: ', score, ' Best: ', bestScore);
-console.table(grid);
-moveRightAll();
+// console.log('Score: ', score, ' Best: ', bestScore);
+// console.table(grid);
+// moveRightAll();
 
-console.log('Score: ', score, ' Best: ', bestScore);
-console.table(grid);
-moveDownAll();
+// console.log('Score: ', score, ' Best: ', bestScore);
+// console.table(grid);
+// moveDownAll();
 
-console.log('Score: ', score, ' Best: ', bestScore);
-console.table(grid);
-moveLeftAll();
+// console.log('Score: ', score, ' Best: ', bestScore);
+// console.table(grid);
+// moveLeftAll();
 
-console.log('Score: ', score, ' Best: ', bestScore);
-console.table(grid);
+// console.log('Score: ', score, ' Best: ', bestScore);
+// console.table(grid);
 
 /*
     [2, 2, 2, 0]
     left:   [4, 2, 0, 0] ✔✔
     Right:  [0, 0, 2, 4] ✔✔
 */
-
