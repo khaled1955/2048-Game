@@ -12,6 +12,22 @@ let score = document.getElementById("score");
 let bestScore = document.getElementById("best-score");
 let rulesModal = document.getElementById("rules-modal");
 
+document.addEventListener("keydown" , (event) =>{
+    event.preventDefault();
+    if(event.key === "ArrowUp"){
+        moveUpAll();
+    }
+    else if(event.key === "ArrowRight"){
+        moveRightAll();
+    }
+    else if(event.key === "ArrowLeft"){
+        moveLeftAll();
+    }
+    else if(event.key === "ArrowDown"){
+        moveDownAll();
+    }
+    render();
+});
 upBtn.addEventListener("click" , () =>{
     moveUpAll();
     render();
