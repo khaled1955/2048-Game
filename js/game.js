@@ -5,7 +5,11 @@ const grid = [
     [0, 0, 0, 0]
 ]
 
-let score = 0, bestScore = 0;
+export function getGrid() {
+    return grid;
+}
+
+let score = 0, bestScore = localStorage.getItem('bestScore') || 0;
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ test cases ـــــــــــــــــــــــــــــــــــــــــــــــ
 const testCases = [
@@ -95,8 +99,10 @@ function setRandomCell() {
     return grid[row][col];
 } setRandomCell();
 
-function endGame() {            // used by user (reset game)
-    grid.forEach(row => row.fill(0))
+export function endGame() {            // used by user (reset game)
+    grid.forEach(row => row.fill(0));
+    updateScoreBoard(0);
+    localStorage.setItem('bestScore', bestScore)
 }
 
 // ـــــــــــــــــــــــــــــــــــــــــــــــ update score ـــــــــــــــــــــــــــــــــــــــــــــــ
@@ -148,7 +154,7 @@ function moveArrowLeft(row, isTest = false) {
 }
 unitTest(moveArrowLeft, expectedLeft, 'Left');
 
-function moveLeftAll() {       // used by user (arrow left)
+export function moveLeftAll() {       // used by user (arrow left)
     for (let row = 0; row < 4; ++row) {
         grid[row] = moveArrowLeft(grid[row]);
     }
@@ -156,7 +162,7 @@ function moveLeftAll() {       // used by user (arrow left)
     setRandomCell();
 }
 
-function moveRightAll() {       // used by user (arrow right)
+export function moveRightAll() {       // used by user (arrow right)
     for (let row = 0; row < 4; ++row) {
         grid[row] = moveArrowRight(grid[row]);
     }
@@ -164,7 +170,7 @@ function moveRightAll() {       // used by user (arrow right)
     setRandomCell();
 }
 
-function moveUpAll() {       // used by user (arrow up)
+export function moveUpAll() {       // used by user (arrow up)
     for (let col = 0; col < 4; ++col) {
         let oneCol = []
         for (let row = 0; row < 4; ++row) {
@@ -181,7 +187,7 @@ function moveUpAll() {       // used by user (arrow up)
     setRandomCell();
 }
 
-function moveDownAll() {       // used by user (arrow down)
+export function moveDownAll() {       // used by user (arrow down)
     for (let col = 0; col < 4; ++col) {
         let oneCol = []
         for (let row = 0; row < 4; ++row) {
